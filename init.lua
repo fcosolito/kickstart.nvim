@@ -677,6 +677,9 @@ do
     bashls = {},
     -- bashls requiere instalar shellcheck para funcionar
     shellcheck = {},
+    intelephense = {},
+    laravel_ls = {},
+    phpstan = {},
     --
     -- Some languages (like typescript) have entire language plugins that can be useful:
     --    https://github.com/pmizio/typescript-tools.nvim
