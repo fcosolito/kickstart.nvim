@@ -172,6 +172,8 @@ do
   -- See `:help 'confirm'`
   vim.o.confirm = true
 
+  vim.o.winborder = "rounded"
+
   -- [[ Basic Keymaps ]]
   --  See `:help vim.keymap.set()`
 
@@ -211,7 +213,7 @@ do
   --
   -- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
   -- or just use <C-\><C-n> to exit terminal mode
-  vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+  vim.keymap.set('t', '<Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
   -- [[ Basic Autocommands ]]
   --  See `:help lua-guide-autocommands`
