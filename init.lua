@@ -683,6 +683,9 @@ do
     laravel_ls = {},
     phpstan = {},
     ts_ls = {},
+    html = {},
+    cssls = {},
+    jsonls = {},
     --
     -- Some languages (like typescript) have entire language plugins that can be useful:
     --    https://github.com/pmizio/typescript-tools.nvim
