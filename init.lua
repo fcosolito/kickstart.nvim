@@ -174,12 +174,20 @@ do
 
   vim.o.winborder = "rounded"
 
+  -- Ancho del explorador de archivos
+  vim.g.netrw_winsize = 20
+
   -- [[ Basic Keymaps ]]
   --  See `:help vim.keymap.set()`
 
   -- Clear highlights on search when pressing <Esc> in normal mode
   --  See `:help hlsearch`
   vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+
+  -- Toggle del explorador de archivos
+  -- En este modo con Enter se sobreescribe el buffer abierto a la derecha con el archivo
+  -- sobre el que se presiona la tecla
+  vim.keymap.set('n', '<leader>l', ':Lexplore<CR>')
 
   -- Diagnostic Config & Keymaps
   --  See `:help vim.diagnostic.Opts`
@@ -667,6 +675,24 @@ do
     end,
   })
 
+  local vue_language_server_path =
+    vim.fn.stdpath("data")
+    .. "/mason/packages/vue-language-server/node_modules/@vue/language-server"
+
+  local vue_plugin = {
+    name = "@vue/typescript-plugin",
+    location = vue_language_server_path,
+    languages = { "vue" },
+    configNamespace = "typescript",
+  }
+
+  local tsserver_filetypes = {
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "vue",
+  }
   -- Enable the following language servers
   --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
   --  See `:help lsp-config` for information about keys and how to configure
@@ -682,10 +708,25 @@ do
     intelephense = {},
     laravel_ls = {},
     phpstan = {},
-    ts_ls = {},
     html = {},
     cssls = {},
     jsonls = {},
+    vtsls = {
+      filetypes = tsserver_filetypes,
+
+      settings = {
+        vtsls = {
+          tsserver = {
+            globalPlugins = {
+              vue_plugin,
+            },
+          },
+        },
+      },
+    },
+    vue_ls = {},
+    -- instalado manualmente, no se resuelve bien por mason-lspconfig
+    -- pug = {},
     --
     -- Some languages (like typescript) have entire language plugins that can be useful:
     --    https://github.com/pmizio/typescript-tools.nvim
@@ -758,6 +799,9 @@ do
     vim.lsp.config(name, server)
     vim.lsp.enable(name)
   end
+
+  vim.lsp.config("pug", {})
+  vim.lsp.enable("pug")
 end
 
 -- ============================================================
@@ -894,7 +938,7 @@ do
   vim.pack.add { { src = gh 'nvim-treesitter/nvim-treesitter', version = 'main' } }
 
   -- Ensure basic parsers are installed
-  local parsers = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' }
+  local parsers = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'pug', 'rust' }
   require('nvim-treesitter').install(parsers)
 
   ---@param buf integer
